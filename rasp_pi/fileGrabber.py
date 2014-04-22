@@ -30,5 +30,5 @@ fileMapping.close()
 
 #r = requests.get('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/phptest.php')
 #print r.content
-r = requests.post('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/library.php', files={'library.csv': open('library.txt', 'rb')})
-print r.content
+r = requests.post('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/library.php', files={'csv': open('library.csv', 'rb')})
+print r.text
