@@ -42,7 +42,7 @@ class User(Base):
     @classmethod
     def is_admin(cls, uname):
         actual = get_user(uname)
-        return actual.userClass == "admin"
+        return actual.roll == "admin"
 
     #Flask-login required functions
     def is_authenticated(self):
@@ -95,6 +95,6 @@ class Queue(Base):
 if __name__ == '__main__':
     Base.metadata.create_all(engine)
     session = Session()
-    admin = User(name="admin", password="password", userClass="admin")
+    admin = User(name="admin", password="password", roll="admin")
     session.add(admin)
     session.commit()

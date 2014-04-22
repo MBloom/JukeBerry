@@ -2,7 +2,7 @@ from flask import Flask, request, g, render_template, redirect, abort, url_for, 
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 
 import config, models
-from models import Session, User, File
+from models import Session, User, Song, Queue
 from forms import LoginForm, AccountForm
 import collections
 
