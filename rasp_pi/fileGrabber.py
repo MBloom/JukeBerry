@@ -1,6 +1,8 @@
 from os import listdir
 from os.path import isfile, join
 import eyed3
+import requests
+
 
 musicHome = '/home/pi/Music/'
 piName = 'cs4414projectpi'
@@ -9,7 +11,7 @@ piName = 'cs4414projectpi'
 count = 1
 
 artists = [f for f in listdir(musicHome) if not isfile(f)]
-fileLibrary = open('library.txt', 'w')
+fileLibrary = open('library.csv', 'w')
 fileMapping = open('directoryMapping.txt', 'w')
 for artist in artists:
 	albums = [f for f in listdir(musicHome + artist) if not isfile(f)]
@@ -26,3 +28,7 @@ for artist in artists:
 fileLibrary.close()
 fileMapping.close()
 
+#r = requests.get('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/phptest.php')
+#print r.content
+r = requests.post('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/library.php', files={'library.csv': open('library.txt', 'rb')})
+print r.content

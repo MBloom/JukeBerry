@@ -1,5 +1,8 @@
 import pygame
 from collections import deque
+import threading
+import time
+
 
 direct = dict()
 fileContents = []
@@ -17,8 +20,25 @@ pygame.mixer.init()
 
 queue.append(22)
 
+
+def getQueue():
+	print 'GETTING QUEUE!!!'
+	#Get queue here!!!!
+
+
+	###################
+	
+	threading.Timer(30, getQueue).start()
+
+
+
+getQueue()
+
+
+
+
 while True:
-	if pygame.mixer.music.get_busy() == False:
+	if pygame.mixer.music.get_busy() == False and len(queue) is not 0:
 		songInt = queue.popleft()
 		songLoc = direct[songInt].strip()
 		pygame.mixer.music.load(songLoc)
