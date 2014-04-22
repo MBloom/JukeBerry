@@ -30,39 +30,31 @@
 <div align="center" class="container">
 	<div class="content">
 	<div class="row">
-	    <div class="span12">
+	    <div class="col-md-12">
 	        <form method=post action={{ url_for('create_user') }}>
 	            <fieldset>
 				    <h3>Sign-Up</h3>
 				    {% if message != None %}
 				    <h4>{{message}}</h4>
 				    {%endif%}
-				    <div class="control-group" style="padding-bottom:10px;">
+				    <div class="form-group" style="padding-bottom:5px;">
 				      <!-- Username -->
-				      <div class="controls">
 				        <input type="text" id="username" name="username" placeholder="Username" 
-				        			class="input-xlarge form-control" style="width: 60%">
-				      </div>
+				        			class="input-xlarge form-control" style="width: 70%">
 				    </div>
-				    <div class="control-group" style="padding-bottom:10px;">
+				    <div class="form-group" style="padding-bottom:5px;">
 				      <!-- Password-->
-				      <div class="controls">
 				        <input type="password" id="password" name="password" placeholder="Password" 
-				        			class="input-xlarge form-control" style="width: 60%">
-				      </div>
+				        			class="input-xlarge form-control" style="width: 70%">
 				    </div>
-				    <div class="control-group" style="padding-bottom:10px;">
+				    <div class="form-group" style="padding-bottom:5px;">
 				      <!-- Password-->
-				      <div class="controls">
-				        <input type="password" id="auth_pass" name="auth_pass" placeholder="Repeate Password" 
-				        			class="input-xlarge form-control" style="width: 60%">
-				      </div>
+				        <input type="password" id="auth_pass" name="auth_pass" placeholder="Repeat Password" 
+				        			class="input-xlarge form-control" style="width: 70%">
 				    </div>
-				    <div class="control-group">
+				    <div class="form-group">
 				      <!-- Button -->
-				      <div class="controls">
 				        <button class="btn btn-success">Create User</button>
-				      </div>
 				    </div>
 				</fieldset>
 			</form>

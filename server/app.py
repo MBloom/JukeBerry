@@ -5,6 +5,7 @@ import config, models
 from models import Session, User, Song, Queue
 from forms import LoginForm, AccountForm
 import collections
+import json
 
 app = Flask(__name__, static_folder='static')
 app.config.from_object(config)
@@ -84,8 +85,9 @@ def admin():
 @app.route('/')
 def home():
     uname = current_user.get_id()
+    all_songs = g.db.query(Song).all()
     your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-    return render_template('home.html', your_songs=your_songs, uname=uname)
+    return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=19199,  debug=True)

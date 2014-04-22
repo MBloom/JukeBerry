@@ -71,6 +71,9 @@ class Song(Base):
         for key, val in kwargs.iteritems():
             setattr(self, key, val)
 
+    def __repr__(self):
+        return "<Song(id={}, album={}, artist={}, title={}, pi_owner={})>".format(self.id, self.album, self.artist, self.title, self.pi_owner)
+
     def to_dict(self):
         return {
                  'id': self.id,
@@ -96,5 +99,7 @@ if __name__ == '__main__':
     Base.metadata.create_all(engine)
     session = Session()
     admin = User(name="admin", password="password", roll="admin")
+    test_song = Song(id=0, album="Test", artist="Test", title="Still Test", pi_owner="Axel")
     session.add(admin)
+    session.add(test_song)
     session.commit()

@@ -30,34 +30,28 @@
 <div align="center" class="container">
 	<div class="content">
 	<div class="row">
-	    <div class="span12">
+	    <div class="col-md-12">
 	        <form method=post action={{ url_for('login') }}>
 	            <fieldset>
 				    <h3>Login</h3>
 				    <h4>
 				    {{ message }}
 				    </h4>
-				    <div class="control-group" style="padding-bottom:10px;">
+				    <div class="form-group" style="padding-bottom:5px;">
 				      <!-- Username -->
-				      <div class="controls">
 				        <input type="text" id="username" name="username" placeholder="Username" 
-				        		class="input-xlarge form-control" style="width: 60%">
-				      </div>
+				        		class="input-xlarge form-control" style="width: 70%">
 				    </div>
-				    <div class="control-group" style="padding-bottom:10px;">
+				    <div class="form-group" style="padding-bottom:5px;">
 				      <!-- Password-->
-				      <div class="controls">
 				        <input type="password" id="password" name="password" placeholder="Password" 
-				        		class="input-xlarge form-control" style="width: 60%">
-				      </div>
+				        		class="input-xlarge form-control" style="width: 70%">
 				    </div>
-				    <div class="control-group">
+				    <div class="form-group">
 				      <!-- Button -->
-				      <div class="controls">
 				        <button class="btn btn-success">Login</button>
-				      </div>
 				    </div>
-				    <a href="/create">Create new account</a>
+				    <a style="padding-top: 5px" href="/create">Create new account</a>
 				</fieldset>
 			</form>
 	        {% if error %} {{ error }} {% endif %}

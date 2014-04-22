@@ -17,6 +17,55 @@
 		<ul>{{ song.title }} - {{ song.artist }}</a></ul>
 		{% endfor %}
 	{% endif %}
+	<div class="content">
+		<script type="text/javascript">
+			var availableSongs = [];
+			{% for s in songs %}
+				var split = "{{ s | safe}}".split(",");
+				var album = split[1].split("=")[1];
+				var artist = split[2].split("=")[1];
+				var title = split[3].split("=")[1];
+			    availableSongs.push(title + " - " + artist + " (" + album + ")");
+			{% endfor %}
+			//alert(availableSongs.toString());
+		</script>
+		<div class="row">
+	    	<div class="col-md-12">
+		            <fieldset>
+					    <h4>Add to Playlist</h4>
+					    <div class="form-group" style="padding-bottom:5px;">
+					      <!-- Username -->
+					        <input type="text" id="song" name="song" placeholder="Song Name" 
+					        			class="input-xlarge form-control" style="width: 70%">
+					     	<script type="text/javascript">
+		                        $(function() {
+		                            $( "#song" ).autocomplete({
+		                              	source: availableSongs
+		                            });
+		                        });
+	                    	</script>
+					    </div>
+					    <div class="form-group">
+					      <!-- Button -->
+					        <button class="btn btn-success" onclick="addSong()">Add Song</button>
+					    </div>
+					</fieldset>
+					<script type="text/javascript">
+						function addSong() {
+					//if input not valid song, don't add
+							var song = document.getElementById("song").value;
+							var title = song.substring(0, song.indexOf(" - "));
+							song = song.substring(song.indexOf(" - ") + 3, song.length);
+							var artist = song.substring(0, song.indexOf(" ("));
+							song = song.substring(song.indexOf(" (") + 2, song.length);
+							var album = song.substring(0, song.length - 1);
+							
+						};
+					</script
+        	</div>
+        </div>
+	</div>
+</div>
 {% endif %}
 </div>
 {% endblock main %}
