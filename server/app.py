@@ -42,7 +42,7 @@ def create_user():
         else:
             new_user = User(name=form.data['username'],
                             password=form.data['password'],
-                            userClass="scrub")
+                            roll="user")
             g.db.add(new_user)
             login_user(new_user)
             return redirect(url_for("home"))

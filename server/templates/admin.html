@@ -29,19 +29,19 @@ $(function(){
 		<th>Username</th>
 		<th>Password</th>
 	</tr>
-{% for u in user_files|sort(attribute='name') %}
+{% for u in users|sort(attribute='name') %}
    <tr id="a" onclick="toggleSibling(this)">
 	   <td><a href="#" id="username" data-type="text" data-pk="1">{{ u.name }}</a></td>
 	   <td><a href="#" id="password" data-type="text" data-pk="1">{{ u.password }}</a></td>
 	</tr>
 	<tr style="display:none;">
 		<td colspan="3">
-			{% for f in user_files[u] %}
-				<ul><a href={{ url_for('file_view', name=f.name) }}>{{ f.name }}&nbsp;&nbsp;&nbsp;&nbsp;({{f.content|length}})</a></ul>
-			{% endfor %}
+			<ul>This will eventually display</ul>
+			<ul>the songs this user has added</ul>
+			<ul>as an unordered list</ul>
 		</td>
 	</tr>
 {% endfor %}
 </table>
-<h4>Total files: {{num_files}}</h4>
+<h4>Total files: {{num_songs}}</h4>
 {% endblock main %}

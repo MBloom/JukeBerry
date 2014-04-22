@@ -3,18 +3,18 @@
 {% block main %}
 <div class = "jumbotron">
 {% if uname == None %}
-	<h2>Please <a href={{ url_for('login') }}>login</a> to access your files</h2>
+	<h2>Please <a href={{ url_for('login') }}>login</a> to play the JukeBrry</h2>
 {% else %}
 	<h1>Welcome, {{ uname }}</h1>
-        <p class="lead">Here is a list of all your files that have been uploaded to the OneDir server. To view the contents of any file simple click on it's name below.</p>
+        <p class="lead">Below is a the current playlist on the JukeBrry.</p>
 </div>
 <div>
-	{% if files|length == 0 %}
-		<h4>You have no files to display</h4>
+	{% if your_songs|length == 0 %}
+		<h4>You have not added any songs</h4>
 	{% else %}
-		<h4>Your files</h4>
-		{% for file in files %}
-		<ul><a href={{ url_for('file_view', name=file.name) }}>{{ file.name }}</a></ul>
+		<h4>Your songs</h4>
+		{% for song in your_songs %}
+		<ul>{{ song.title }} - {{ song.artist }}</a></ul>
 		{% endfor %}
 	{% endif %}
 {% endif %}
