@@ -52,14 +52,15 @@ def create_user():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm(request.form)
+    message = ""
     if form.validate():
         # since the form isn't bad, we check for valid user
         user = models.get_user(form.data['username'])
         if user != None and User.check_password(form.data['username'], form.data['password']):
             login_user(user)
+            return redirect(url_for("home"))
         else :
-            message = "Incorrect Password."
-	    return redirect(url_for("home"))
+            message = "Username/Password do not match"
     return render_template("login.html", form=form, message=message)
 
 
