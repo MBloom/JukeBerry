@@ -15,13 +15,12 @@ for line in fileContents:
 
 pygame.mixer.init()
 
-queue.append(3)
+queue.append(22)
 
 while True:
 	if pygame.mixer.music.get_busy() == False:
 		songInt = queue.popleft()
 		songLoc = direct[songInt].strip()
-		print '/home/axel/Music/DaveMatthews/LIveInAtlanticCity/D1_01_SeekUp.mp3'
-		print songLoc
 		pygame.mixer.music.load(songLoc)
 		pygame.mixer.music.play()
+

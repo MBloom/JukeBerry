@@ -2,7 +2,9 @@ from os import listdir
 from os.path import isfile, join
 import eyed3
 
-musicHome = '/home/axel/Music/'
+musicHome = '/home/pi/Music/'
+piName = 'cs4414projectpi'
+
 
 count = 1
 
@@ -18,8 +20,9 @@ for artist in artists:
 			artistInfo = audiofile.tag.artist
 			albumInfo = audiofile.tag.album
 			songInfo = audiofile.tag.title
-			fileLibrary.write(artistInfo + ',' + albumInfo + ',' + songInfo + ',' + str(count) + '\n')
+			fileLibrary.write(piName + ',' + artistInfo + ',' + albumInfo + ',' + songInfo + ',' + str(count) + '\n')
 			fileMapping.write(str(count) + ',' + musicHome + artist + '/' + album + '/' + song + '\n')
 			count +=1
 fileLibrary.close()
 fileMapping.close()
+
