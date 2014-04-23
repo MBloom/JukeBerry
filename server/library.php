@@ -21,8 +21,10 @@ if ($_FILES[csv][size] > 0) {
     $firstrow = fgetcsv($handle,1000,",","'");
     $RBP_ID = $firstrow[0];
     $drop_sql = "DELETE FROM songs WHERE pi_owner = '" .$RBP_ID. "';";
-    echo($drop_sql);
-    $result = $db->exec($sql);
+    echo($drop_sql."<br>");
+    $result = $db->exec($drop_sql);
+    echo($result."<br>");
+
     $sql = "INSERT INTO songs (id, artist,album,title,pi_owner) VALUES (".$firstrow[4].",'".$firstrow[1]."','".$firstrow[2]."','".$firstrow[3]."','".$firstrow[0]."');";
     $result = $db->exec($sql);
         //loop through the csv file and insert into database 
@@ -33,7 +35,7 @@ if ($_FILES[csv][size] > 0) {
 
             $sql = "INSERT INTO songs (id, artist,album,title,pi_owner) VALUES (".$data[4].",'".$data[1]."','".$data[2]."','".$data[3]."','".$data[0]."');";
             $result = $db->exec($sql);
-            echo($sql."<br>");
+            //echo($result."<br>");
             echo("<tr>");
             echo("<td>".$data[4]."</td>");
             echo("<td>".$data[1]."</td>");
