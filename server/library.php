@@ -21,19 +21,19 @@ if ($_FILES[csv][size] > 0) {
     $firstrow = fgetcsv($handle,1000,",","'");
     $RBP_ID = $firstrow[0];
     $drop_sql = "DELETE FROM songs WHERE pi_owner = '" .$RBP_ID. "';";
-    echo($drop_sql."<br>");
+    //echo($drop_sql."<br>");
     $result = $db->exec($drop_sql);
-    echo($result."<br>");
+    //echo($result."<br>");
 
-    $sql = "INSERT INTO songs (id, artist,album,title,pi_owner) VALUES (".$firstrow[4].",'".$firstrow[1]."','".$firstrow[2]."','".$firstrow[3]."','".$firstrow[0]."');";
+    $sql = "INSERT INTO songs (id, artist,album,title,pi_owner) VALUES (".SQLite3::escapeString($firstrow[4]).",'".SQLite3::escapeString($firstrow[1])."','".SQLite3::escapeString($firstrow[2])."','".SQLite3::escapeString($firstrow[3])."','".SQLite3::escapeString($firstrow[0])."');";
     $result = $db->exec($sql);
+    echo($sql);
         //loop through the csv file and insert into database 
 
     do { 
 
         if ($data[0]) { 
-
-            $sql = "INSERT INTO songs (id, artist,album,title,pi_owner) VALUES (".$data[4].",'".$data[1]."','".$data[2]."','".$data[3]."','".$data[0]."');";
+             $sql = "INSERT INTO songs (id, artist,album,title,pi_owner) VALUES (".SQLite3::escapeString($data[4]).",'".SQLite3::escapeString($data[1])."','".SQLite3::escapeString($data[2])."','".SQLite3::escapeString($data[3])."','".SQLite3::escapeString($data[0])."');";
             $result = $db->exec($sql);
             //echo($result."<br>");
             echo("<tr>");
@@ -53,4 +53,5 @@ if ($_FILES[csv][size] > 0) {
 } 
 
 ?> 
+
 </table>
