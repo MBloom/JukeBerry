@@ -1,9 +1,5 @@
 <?php  
 
-//connect to the database 
-$connect = mysql_connect("localhost","username","password"); 
-mysql_select_db("mydatabase",$connect); //select the table 
-// 
 
 if ($_FILES[csv][size] > 0) { 
 
