@@ -33,12 +33,12 @@
                 <ul class="nav nav-pills pull-right">
                   <li {% if request.path == "/" %}class="active"{% endif %}><a href="/">Home</a></li>
                   {% if current_user.roll == "admin" %}
-                  	<li {% if request.path == "/admin" %}class="active"{% endif %}><a href={{ url_for('admin') }}>Admin</a></li>
+                  	<li {% if request.path == "/admin/" %}class="active"{% endif %}><a href={{ url_for('admin') }}>Admin</a></li>
                   {%endif%}
                   {% if current_user.is_active() %}
                   	<li><a href={{ url_for('logout') }}>Logout</a></li>
                   {%else%}
-                  <li {% if request.path == "/login" %}class="active"{% endif %}><a href={{ url_for('login') }}>Login</a></li>
+                  <li {% if request.path == "/login/" %}class="active"{% endif %}><a href={{ url_for('login') }}>Login</a></li>
                   {%endif%}
                 </ul>
                 <h3 class="text-muted">JukeBrry</h3>

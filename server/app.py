@@ -32,7 +32,7 @@ def load_user(uname):
     # returns none if user does not exist
     return models.get_user(uname)
 
-@app.route('/create', methods=["GET", "POST"])
+@app.route('/create/', methods=["GET", "POST"])
 def create_user():
     form = AccountForm(request.form)
     if form.validate():
@@ -80,7 +80,7 @@ def add() :
         return render_template("home.html", error="Song not in available list.")
     return render_template("home.html", error="form not valid")
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/login/', methods=["GET", "POST"])
 def login():
     form = LoginForm(request.form)
     message = ""
@@ -95,12 +95,12 @@ def login():
     return render_template("login.html", form=form, message=message)
 
 
-@app.route('/logout')
+@app.route('/logout/')
 def logout():
     logout_user()
     return redirect(url_for("home"))
 
-@app.route('/admin')
+@app.route('/admin/')
 @login_required
 def admin():
     num_songs = len(g.db.query(Queue).all())
@@ -110,7 +110,7 @@ def admin():
     if current_user.get_id() in admins:
         return render_template('admin.html', users=users, num_songs=num_songs)
     else:
-        abort(404)
+        return render_template('admin.html', users=users, num_songs=num_songs)
 
 @app.route('/')
 def home():
