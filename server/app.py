@@ -71,7 +71,7 @@ def add() :
             nextSong = Queue(id=song.id, album = song.album, artist = song.artist, title = song.title, pi_owner = song.pi_owner, owner=user.name)
             try:
                 g.db.add(nextSong)
-                g.db.session.flush()
+                g.db.flush()
                 return redirect(url_for("home"))
             except IntegrityError:
                 #g.db.rollback()
