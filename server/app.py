@@ -68,20 +68,19 @@ def add() :
         print song.album
         print song.pi_owner
         if song != None and user != None:
+            uname = current_user.get_id()
+            all_songs = g.db.query(Song).all()
+            your_songs = g.db.query(Queue).filter_by(owner=uname).all()
+            queue = g.db.query(Queue).all()
             nextSong = Queue(id=song.id, album = song.album, artist = song.artist, title = song.title, pi_owner = song.pi_owner, owner=user.name)
             try:
                 g.db.add(nextSong)
                 g.db.flush()
-                uname = current_user.get_id()
-                all_songs = g.db.query(Song).all()
-                your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-                return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs)
+                return redirect(url_for("home"))
+                #render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs)
             except IntegrityError:
                 g.db.rollback()
-                uname = current_user.get_id()
-                all_songs = g.db.query(Song).all()
-                your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-                return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, error="You've already added that song to the list!")
+                return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, error="You've already added that song to the list!", queue=queue)
                 #return render_template("home.html", ) 
             #return redirect(url_for("home"))
         return render_template("home.html", error="Song not in available list.")
@@ -130,8 +129,9 @@ def home():
     yours = []
     uname = current_user.get_id()
     all_songs = g.db.query(Song).all()
+    queue = g.db.query(Queue).all()
     your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-    return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs)
+    return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=19199,  debug=True)
