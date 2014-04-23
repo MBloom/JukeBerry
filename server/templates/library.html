@@ -1,47 +1,30 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.15.14/jquery.tablesorter.js"></script>
 <script type="text/javascript">
-	function toggleSibling(sibling){
-		sibling = sibling.nextSibling;
-		while(!/tr/i.test(sibling.nodeName)){
-			sibling = sibling.nextSibling;
-		}
-		sibling.style.display = sibling.style.display == 'table-row' ? 'none' : 'table-row';
+	function(){
+		$("#mytable").tablesorter();
 	}
 </script>
-<script>
-$(function(){
-    //toggle `popup` / `inline` mode
-    $.fn.editable.defaults.mode = 'popup';     
-    
-    //make username editable
-    $('#username').editable();
-    
-    //make password editable
-    $('#password').editable();
-});
-</script>
-<table class="table table-hover tablesorter" id="myTable">
+<table  id="myTable" class="table tablesorter">
+	<thead>
 	<tr>
-		<th>Username</th>
-		<th>Password</th>
+		<th>Title</th>
+		<th>Artist</th>
+		<th>Album</th>
 	</tr>
-{% for u in users|sort(attribute='name') %}
-   <tr id="a" onclick="toggleSibling(this)">
-	   <td><a href="#" id="username" data-type="text" data-pk="1">{{ u.name }}</a></td>
-	   <td><a href="#" id="password" data-type="text" data-pk="1">{{ u.password }}</a></td>
+	</thead>
+{% for s in songs|sort(attribute='artist') %}
+<tbody>
+   <tr>
+	   <td>{{ s.title }}</td>
+	   <td>{{ s.artist }}</td>
+	   <td>{{ s.album }}</td>
 	</tr>
-	<tr style="display:none;">
-		<td colspan="3">
-			<ul>This will eventually display</ul>
-			<ul>the songs this user has added</ul>
-			<ul>as an unordered list</ul>
-		</td>
-	</tr>
+	</tbody>
 {% endfor %}
 </table>
-<h4>Total files: {{num_songs}}</h4>
+
+<h4>Total songs: {{num_songs}}</h4>
 {% endblock main %}
