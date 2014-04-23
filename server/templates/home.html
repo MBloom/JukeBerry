@@ -15,11 +15,8 @@
 		<h4>Your songs</h4>
 		{% for song in your_songs %}
 
-			<ul>{{ song.title }} - {{ song.artist }} ({{ song.album }})</ul>
+			<ul><a id="button_{{song.id}}" class="clickme"><span class="glyphicon glyphicon-remove"></span></a>  {{ song.title }} - {{ song.artist }} ({{ song.album }})</ul>
 		{% endfor %}
-		{% if newSong %}
-			<ul>{{ newSong }}</ul>
-		{% endif %}
 	{% endif %}
 	<div class="content">
 		<script type="text/javascript">
@@ -38,7 +35,12 @@
 	    		<form method=post action={{ url_for('add') }}>
 		            <fieldset>
 					    <h4>Add to Playlist</h4>
-	        			{% if error %} {{ error }} {% endif %}
+	        			{% if error %} 
+		        			<div class="alert alert-danger alert-dismissable">
+							  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							  <strong>Sorry!</strong> {{ error }}
+							</div> 
+						{% endif %}
 					    <div class="form-group" style="padding-bottom:5px;">
 					      <!-- Username -->
 					        <input type="text" id="song" name="song" placeholder="Song Name" 

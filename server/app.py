@@ -72,10 +72,17 @@ def add() :
             try:
                 g.db.add(nextSong)
                 g.db.flush()
-                return redirect(url_for("home"))
+                uname = current_user.get_id()
+                all_songs = g.db.query(Song).all()
+                your_songs = g.db.query(Queue).filter_by(owner=uname).all()
+                return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs)
             except IntegrityError:
-                #g.db.rollback()
-                return render_template("home.html", error="You've already added that song to the list!") 
+                g.db.rollback()
+                uname = current_user.get_id()
+                all_songs = g.db.query(Song).all()
+                your_songs = g.db.query(Queue).filter_by(owner=uname).all()
+                return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, error="You've already added that song to the list!")
+                #return render_template("home.html", ) 
             #return redirect(url_for("home"))
         return render_template("home.html", error="Song not in available list.")
     return render_template("home.html", error="form not valid")
@@ -106,11 +113,17 @@ def admin():
     num_songs = len(g.db.query(Queue).all())
     users = g.db.query(User).all()
     # admin authentication
-    admins = g.db.query(User).filter_by(roll="admin")
+    admins = g.db.query(User).filter_by(roll="admin").all()
     if current_user.get_id() in admins:
         return render_template('admin.html', users=users, num_songs=num_songs)
     else:
         return render_template('admin.html', users=users, num_songs=num_songs)
+
+@app.route('/library/')
+@login_required
+def library():
+    all_songs = g.db.query(Song).all()
+    return render_template('library.html', all_songs=all_songs)
 
 @app.route('/')
 def home():
