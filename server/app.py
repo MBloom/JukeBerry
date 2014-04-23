@@ -1,11 +1,13 @@
-from flask import Flask, request, g, render_template, redirect, abort, url_for, Response
+from flask import Flask, request, g, render_template, redirect, abort, url_for, Response, session
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 
 import config, models
 from models import Session, User, Song, Queue
-from forms import LoginForm, AccountForm
+from forms import LoginForm, AccountForm, SongForm
+from sqlalchemy import exc
 import collections
 import json
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__, static_folder='static')
 app.config.from_object(config)
@@ -23,6 +25,7 @@ def create_session():
 def commit_session(resp):
     g.db.commit()
     return resp
+
 
 @login_manager.user_loader
 def load_user(uname):
@@ -49,6 +52,33 @@ def create_user():
             return redirect(url_for("home"))
     print form.data
     return render_template("create.html", form=form, message=None)
+
+@app.route('/add/', methods=["POST"])
+def add() :
+    form = SongForm(request.form)
+    if form.validate():
+        songData = form.data['song'].split(" - ")
+        notTitle = songData[1].split(" (")
+        artist = notTitle[0]
+        album = notTitle[1].split(")")[0]
+        song = models.get_song(songData[0], artist, album)
+        user = models.get_user(current_user.get_id())
+        print song.id
+        print song.artist
+        print song.album
+        print song.pi_owner
+        if song != None and user != None:
+            nextSong = Queue(id=song.id, album = song.album, artist = song.artist, title = song.title, pi_owner = song.pi_owner, owner=user.name)
+            try:
+                g.db.add(nextSong)
+                g.db.session.flush()
+                return redirect(url_for("home"))
+            except IntegrityError:
+                #g.db.rollback()
+                return render_template("home.html", error="You've already added that song to the list!") 
+            #return redirect(url_for("home"))
+        return render_template("home.html", error="Song not in available list.")
+    return render_template("home.html", error="form not valid")
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -84,6 +114,7 @@ def admin():
 
 @app.route('/')
 def home():
+    yours = []
     uname = current_user.get_id()
     all_songs = g.db.query(Song).all()
     your_songs = g.db.query(Queue).filter_by(owner=uname).all()

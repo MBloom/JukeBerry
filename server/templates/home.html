@@ -14,8 +14,12 @@
 	{% else %}
 		<h4>Your songs</h4>
 		{% for song in your_songs %}
-		<ul>{{ song.title }} - {{ song.artist }}</a></ul>
+
+			<ul>{{ song.title }} - {{ song.artist }} ({{ song.album }})</ul>
 		{% endfor %}
+		{% if newSong %}
+			<ul>{{ newSong }}</ul>
+		{% endif %}
 	{% endif %}
 	<div class="content">
 		<script type="text/javascript">
@@ -27,12 +31,14 @@
 				var title = split[3].split("=")[1];
 			    availableSongs.push(title + " - " + artist + " (" + album + ")");
 			{% endfor %}
-			//alert(availableSongs.toString());
+			alert(availableSongs.length);
 		</script>
 		<div class="row">
 	    	<div class="col-md-12">
+	    		<form method=post action={{ url_for('add') }}>
 		            <fieldset>
 					    <h4>Add to Playlist</h4>
+	        			{% if error %} {{ error }} {% endif %}
 					    <div class="form-group" style="padding-bottom:5px;">
 					      <!-- Username -->
 					        <input type="text" id="song" name="song" placeholder="Song Name" 
@@ -50,18 +56,7 @@
 					        <button class="btn btn-success" onclick="addSong()">Add Song</button>
 					    </div>
 					</fieldset>
-					<script type="text/javascript">
-						function addSong() {
-					//if input not valid song, don't add
-							var song = document.getElementById("song").value;
-							var title = song.substring(0, song.indexOf(" - "));
-							song = song.substring(song.indexOf(" - ") + 3, song.length);
-							var artist = song.substring(0, song.indexOf(" ("));
-							song = song.substring(song.indexOf(" (") + 2, song.length);
-							var album = song.substring(0, song.length - 1);
-							
-						};
-					</script
+				</form>
         	</div>
         </div>
 	</div>

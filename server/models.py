@@ -6,14 +6,19 @@ import os
 from sqlalchemy import (Column, String, LargeBinary, 
                         create_engine, ForeignKey, 
                         Boolean, DateTime, Integer,
-                        Enum,)
+                        Enum, )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from flask import g
 
 DB_NAME = 'jb.db'
 
-engine = create_engine('sqlite:///%s' % DB_NAME, echo=False)
+from sqlalchemy.interfaces import PoolListener
+class ForeignKeysListener(PoolListener):
+    def connect(self, dbapi_con, con_record):
+        db_cursor = dbapi_con.execute('pragma foreign_keys=ON')
+
+engine = create_engine('sqlite:///%s' % DB_NAME, echo=False,  listeners=[ForeignKeysListener()])
 Base = declarative_base()
 
 # global application level session, which handles all conversations with the db
@@ -23,6 +28,9 @@ Session = sessionmaker(bind=engine)
 def get_user(name):
     return g.db.query(User).filter_by(name=name).first()
 
+def get_song(title, artist, album):
+    return g.db.query(Song).filter_by(title=title, artist=artist, album=album).first()
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -30,6 +38,7 @@ class User(Base):
     name      = Column(String, primary_key=True)
     password  = Column(String)
     roll = Column(String)
+    #queues = relationship('Queue', backref = 'users', lazy="joined")
 
     def __repr__(self):
         return "<User(name={}, pw={}, roll={})>".format(self.name, self.password, self.roll)
@@ -66,6 +75,7 @@ class Song(Base):
     artist = Column(String)
     title = Column(String)
     pi_owner = Column(String)
+    #queues = relationship('Queue', backref = 'songs', lazy='joined')
 
     def __init__(self, **kwargs):
         for key, val in kwargs.iteritems():
@@ -87,19 +97,40 @@ class Song(Base):
 class Queue(Base):
     __tablename__ = 'queue'
 
-    id = Column(Integer, ForeignKey('songs.id'), primary_key=True)
-    owner  = Column(String, ForeignKey('songs.id'), primary_key=True)
+    id = Column(Integer, primary_key=True)
+    album = Column(String)
+    artist = Column(String)
+    title = Column(String)
+    pi_owner = Column(String)
+    owner  = Column(String, primary_key=True)
 
     def __init__(self, **kwargs):
         for key, val in kwargs.iteritems():
             setattr(self, key, val)
 
+    def __repr__(self):
+        return "<Queue(id={}, owner={})>".format(self.id, self.owner)
+
+    def __repr__(self):
+        return "<Queue(id={}, album={}, artist={}, title={}, pi_owner={}, owner={})>".format(self.id, self.album, self.artist, self.title, self.pi_owner, self.owner)
+
+    def to_dict(self):
+        return {
+                 'id': self.id,
+                 'album': self.album,
+                 'artist': self.artist,
+                 'title': self.title,
+                 'pi_owner': self.pi_owner,
+                 'owner': self.owner
+                }
 
 if __name__ == '__main__':
     Base.metadata.create_all(engine)
     session = Session()
     admin = User(name="admin", password="password", roll="admin")
     test_song = Song(id=0, album="Test", artist="Test", title="Still Test", pi_owner="Axel")
+    #test_queue = Queue(id=20, owner="steph")
     session.add(admin)
     session.add(test_song)
+    #session.add(test_queue)
     session.commit()
