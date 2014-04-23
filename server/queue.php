@@ -1,8 +1,4 @@
-<html>
-<head>
-	<title>PHP Test</title>
-</head>
-<body>
+
 
 		<?php
 		$db = new SQLite3('jb.db');
@@ -10,12 +6,14 @@
 			$sql = "SELECT * FROM queue WHERE pi_owner='" . $_GET["raspID"]. "';";
 			$results = $db->query($sql);
 			//change this to queue 
+			$output = "";
 			while ($row = $results->fetchArray()) {
-	            echo($row['id']."</br>");
+				$output = $output . "," . $row['id'];
 	            //echo("</tr>");
 			}
+			$output = rtrim($output, ',');
+			$output = ltrim($output, ',');
+			echo($output);
 		}
 		
 		?>
-</body>
-</html>
