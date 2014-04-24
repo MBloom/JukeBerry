@@ -54,6 +54,7 @@
     </div>
 </div>
 <div>
+	<h3>Next up:</h3>
 	<div id="queue">
 		<div id="nowPlaying"></div>
     	<hr>
@@ -88,8 +89,7 @@
 			}
 		}
 
-		var seconds = 30;
-
+		var seconds = 5;
 		setInterval(function(){
 			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 			$.getJSON($SCRIPT_ROOT + '/_queue', {

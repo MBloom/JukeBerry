@@ -2,10 +2,11 @@
 
 {% block main %}
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.15.14/jquery.tablesorter.js"></script>
+<script src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
 <script>
 	$(document).ready(function(){
 		$(function(){
-			$("#mytable").tablesorter();
+			$("#mytable").tablesorter().tablesorterPager({container: $("#pager")}); ;
 		});
 	});
 </script>
@@ -27,5 +28,21 @@
 {% endfor %}
     </tbody>
 </table>
-<h4>Total songs: {{num_songs}}</h4>
+
+<!-- pager -->
+<div id="pager" class="pager">
+  <form>
+    <span class="glyphicon glyphicon-step-backward first"></span>
+    <span class="glyphicon glyphicon glyphicon-fast-backward prev"></span>
+    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+    <span class="glyphicon glyphicon glyphicon-fast-forward next"></span>
+    <span class="glyphicon glyphicon-step-forward last"></span>
+    <select class="pagesize">
+      <option selected="selected" value="10">10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+    </select>
+  </form>
+</div>
 {% endblock main %}
