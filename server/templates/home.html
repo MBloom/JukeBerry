@@ -82,6 +82,7 @@
 		} else {
 			document.getElementById("nowPlaying").innerHTML+="<p>No songs currently in the queue.</p>";
 		}
+
 		for (var i=1;i<queueSongs.length;i++) { 
 			if(yourSongs.indexOf(queueSongs[i]) > -1) {
 				document.getElementById("list").innerHTML+="<ul><a id='button' class='clickme'><span class='glyphicon glyphicon-remove'></span></a>  " + queueSongs[i] + "</ul>";
@@ -89,6 +90,29 @@
 				document.getElementById("list").innerHTML+="<ul>" + queueSongs[i] + "</ul>";
 			}
 		}
+
+		var seconds = 10;
+
+		setInterval(function(){
+            // $.ajax('/_queue', {
+            //     type: 'POST',
+            //     // data: JSON.stringify(json),
+            //     contentType: 'application/json',
+            //     success: function(data, textStatus, jqXHR){
+            //         console.log(data);
+            //     },
+            //     error: function(jqXHR, textStatus, errorThrown){
+            //         console.log(errorThrown);
+            //     }
+            // });
+			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+			$.getJSON($SCRIPT_ROOT + '/_queue', {
+		        }, function(data) {
+		        	console.log(data.value);
+		          $("#list").text(data.value);
+		        });
+		        return false;
+		}, seconds * 1000)
 	</script>
 	{% endif %}
 </div>

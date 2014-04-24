@@ -1,4 +1,4 @@
-from flask import Flask, request, g, render_template, redirect, abort, url_for, Response, session
+from flask import Flask, request, g, render_template, redirect, abort, url_for, Response, session, jsonify
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 
 import config, models
@@ -31,6 +31,12 @@ def commit_session(resp):
 def load_user(uname):
     # returns none if user does not exist
     return models.get_user(uname)
+
+@app.route('/_queue')
+def add_numbers():
+    a = request.args.get('a', 0, type=int)
+    b = request.args.get('b', 0, type=int)
+    return jsonify(result=a + b)
 
 @app.route('/create/', methods=["GET", "POST"])
 def create_user():
@@ -124,6 +130,15 @@ def admin():
 def library():
     all_songs = g.db.query(Song).all()
     return render_template('library.html', all_songs=all_songs)
+
+@app.route('/_queue')
+def queue():
+    uname = current_user.get_id()
+    print uname
+    all_songs = g.db.query(Song).all()
+    queue = g.db.query(Queue).all()
+    your_songs = g.db.query(Queue).filter_by(owner=uname).all()
+    return render_template('queue.html', your_songs=your_songs, songs=all_songs, queue=queue)
 
 @app.route('/')
 def home():
