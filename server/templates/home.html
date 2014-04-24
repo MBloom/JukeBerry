@@ -54,12 +54,11 @@
     </div>
 </div>
 <div>
+	<h3>Next up:</h3>
 	<div id="queue">
-	<div id="nowPlaying">
-	</div>
-    <hr>
-    <div id="list">
-	</div>
+		<div id="nowPlaying"></div>
+    	<hr>
+    	<div id="list"></div>
 	</div>
 	<script type="text/javascript">
 		var queueSongs = [];
@@ -70,15 +69,12 @@
 			var title = split[3].split("=")[1];
 		    queueSongs.push(title + " - " + artist + " (" + album + ")");
 		{% endfor %}
-		//alert(availableSongs.length);
-		//alert(queueSongs.length);
 
 		var yourSongs = [];
 		{% for y in your_songs %}
 		    yourSongs.push("{{y.title  | safe }}" + " - " + "{{y.artist | safe }}" + " (" + "{{y.album | safe }}" + ")");
 		{% endfor %}
 
-		//alert(yourSongs.length);
 		if(queueSongs.length > 0) {
 			document.getElementById("nowPlaying").innerHTML+="<p>" + queueSongs[0] + "</p>";
 		} else {
@@ -87,14 +83,13 @@
 
 		for (var i=1;i<queueSongs.length;i++) { 
 			if(yourSongs.indexOf(queueSongs[i]) > -1) {
-				document.getElementById("list").innerHTML+="<ul><a id='button' class='clickme'><span class='glyphicon glyphicon-remove'></span></a>  " + queueSongs[i] + "</ul>";
+				document.getElementById("list").innerHTML+="<ul><a id='button" + i + "' class='clickme'><span class='glyphicon glyphicon-remove'></span></a>  " + queueSongs[i] + "</ul>";
 			} else {
 				document.getElementById("list").innerHTML+="<ul>" + queueSongs[i] + "</ul>";
 			}
 		}
 
 		var seconds = 5;
-
 		setInterval(function(){
 			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 			$.getJSON($SCRIPT_ROOT + '/_queue', {
