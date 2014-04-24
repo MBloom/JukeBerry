@@ -123,7 +123,8 @@ def admin():
 @login_required
 def library():
     all_songs = g.db.query(Song).all()
-    return render_template('library.html', all_songs=all_songs)
+    num_songs = len(all_songs)
+    return render_template('library.html', all_songs=all_songs, num_songs=num_songs)
 
 @app.route('/_queue')
 def queue():
