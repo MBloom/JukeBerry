@@ -45,7 +45,7 @@
 	                    </div>
 	                    <div class="form-group" style="padding-bottom:5px;">
 					    	<!-- Button -->
-					        <button class="btn btn-success btn-sm" style="font-size: 14px; padding: 10px 23px" onclick="addSong()">Add Song</button>    					   
+					        <button class="btn btn-success btn-sm" style="font-size: 14px; padding: 10px 23px">Add Song</button>    					   
 					    </div>
 					</fieldset>
 				</form>
@@ -88,6 +88,18 @@
 				document.getElementById("list").innerHTML+="<ul>" + queueSongs[i] + "</ul>";
 			}
 		}
+
+		$('.button').click(function(){
+	    	var i = (this).attr('id').split("_")[1]
+	        alert(i);
+	        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	        $.getJSON($SCRIPT_ROOT + '/_delete', {
+	        		songString: queueSongs[i]
+		        }, function(data) {
+		          (alert)
+		        });
+		        return false;
+		});
 
 		var seconds = 5;
 		setInterval(function(){

@@ -84,7 +84,16 @@ def add() :
                 #return render_template("home.html", ) 
             #return redirect(url_for("home"))
         return render_template("home.html", error="Song not in available list.")
-    return render_template("home.html", error="form not valid")
+    return render_template("home.html", error="Uhoh. Looks like you forgot to enter a song!")
+
+@app.route('/_delete')
+def delete() :
+    print "temp1"
+    a = request.args.get('songString', 0, type=str)
+    print "temp"
+    print a
+    return jsonify(value=render_template('queue.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue))
+    
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():

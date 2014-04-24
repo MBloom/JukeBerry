@@ -32,7 +32,7 @@
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                  <li {% if request.path == "/" %}class="active"{% endif %}><a href="/">Home</a></li>
+                  <li {% if request.path == "/library/" %}class="active"{% endif %}><a href="/library/">Library</a></li>
                   {% if current_user.role == "admin" %}
                   	<li {% if request.path == "/admin/" %}class="active"{% endif %}><a href={{ url_for('admin') }}>Admin</a></li>
                   {%endif%}
@@ -42,7 +42,7 @@
                   <li {% if request.path == "/login/" %}class="active"{% endif %}><a href={{ url_for('login') }}>Login</a></li>
                   {%endif%}
                 </ul>
-                <h3 class="text-muted">JukeBrry</h3>
+                <h3 class="text-muted"><a href="/" style="text-decoration:none; color:#ccc;">JukeBrry</a></h3>
             </div>
         </div>
         <div class="container">

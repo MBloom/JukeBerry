@@ -6,10 +6,16 @@
 <script>
 	$(document).ready(function(){
 		$(function(){
-			$("#mytable").tablesorter().tablesorterPager({container: $("#pager")}); ;
+			$("#mytable").tablesorter({ 
+			// initialize zebra striping and filter widgets 
+			widthFixed : true
+			})
+			.tablesorterPager({container: $("#pager")}); ;
 		});
 	});
 </script>
+<h3>All songs on JukeBrry</h3>
+
 <table id="mytable" class="table table-hover tablesorter">
     <thead>
         <tr>
@@ -20,7 +26,7 @@
     </thead>
     <tbody>
 {% for s in all_songs|sort(attribute='artist')%}
-        <tr>
+        <tr class='clickableRow' href={{ url_for('add') }}>
             <td>{{s.title}}</td>
             <td>{{s.artist}}</td>
             <td>{{s.album}}</td>
