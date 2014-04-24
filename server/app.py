@@ -32,12 +32,6 @@ def load_user(uname):
     # returns none if user does not exist
     return models.get_user(uname)
 
-@app.route('/_queue')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
-
 @app.route('/create/', methods=["GET", "POST"])
 def create_user():
     form = AccountForm(request.form)
@@ -134,11 +128,10 @@ def library():
 @app.route('/_queue')
 def queue():
     uname = current_user.get_id()
-    print uname
     all_songs = g.db.query(Song).all()
     queue = g.db.query(Queue).all()
     your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-    return render_template('queue.html', your_songs=your_songs, songs=all_songs, queue=queue)
+    return jsonify(value=render_template('queue.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue))
 
 @app.route('/')
 def home():

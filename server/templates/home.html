@@ -54,10 +54,12 @@
     </div>
 </div>
 <div>
+	<div id="queue">
 	<div id="nowPlaying">
 	</div>
     <hr>
     <div id="list">
+	</div>
 	</div>
 	<script type="text/javascript">
 		var queueSongs = [];
@@ -91,25 +93,13 @@
 			}
 		}
 
-		var seconds = 10;
+		var seconds = 5;
 
 		setInterval(function(){
-            // $.ajax('/_queue', {
-            //     type: 'POST',
-            //     // data: JSON.stringify(json),
-            //     contentType: 'application/json',
-            //     success: function(data, textStatus, jqXHR){
-            //         console.log(data);
-            //     },
-            //     error: function(jqXHR, textStatus, errorThrown){
-            //         console.log(errorThrown);
-            //     }
-            // });
 			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 			$.getJSON($SCRIPT_ROOT + '/_queue', {
 		        }, function(data) {
-		        	console.log(data.value);
-		          $("#list").text(data.value);
+		          $("#queue").html(data.value);
 		        });
 		        return false;
 		}, seconds * 1000)
