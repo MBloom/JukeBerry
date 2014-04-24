@@ -46,7 +46,7 @@ def create_user():
         else:
             new_user = User(name=form.data['username'],
                             password=form.data['password'],
-                            roll="user")
+                            role="user")
             g.db.add(new_user)
             login_user(new_user)
             return redirect(url_for("home"))
@@ -100,7 +100,6 @@ def login():
             message = "Username/Password do not match"
     return render_template("login.html", form=form, message=message)
 
-
 @app.route('/logout/')
 def logout():
     logout_user()
@@ -110,13 +109,15 @@ def logout():
 @login_required
 def admin():
     num_songs = len(g.db.query(Queue).all())
+    users_songs = {}
     users = g.db.query(User).all()
+    for u in users:
+        users_songs[u] = g.db.query(Queue).filter_by(owner=u.name).all()
     # admin authentication
-    admins = g.db.query(User).filter_by(roll="admin").all()
-    if current_user.get_id() in admins:
-        return render_template('admin.html', users=users, num_songs=num_songs)
+    if current_user.role == "admin":
+        return render_template('admin.html', users_songs=users_songs, num_songs=num_songs)
     else:
-        return render_template('admin.html', users=users, num_songs=num_songs)
+        abort(404)
 
 @app.route('/library/')
 @login_required

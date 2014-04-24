@@ -37,11 +37,11 @@ class User(Base):
 
     name      = Column(String, primary_key=True)
     password  = Column(String)
-    roll = Column(String)
+    role = Column(String)
     #queues = relationship('Queue', backref = 'users', lazy="joined")
 
     def __repr__(self):
-        return "<User(name={}, pw={}, roll={})>".format(self.name, self.password, self.roll)
+        return "<User(name={}, pw={}, role={})>".format(self.name, self.password, self.role)
 
     @classmethod
     def check_password(cls, uname, password):
@@ -51,7 +51,7 @@ class User(Base):
     @classmethod
     def is_admin(cls, uname):
         actual = get_user(uname)
-        return actual.roll == "admin"
+        return actual.role == "admin"
 
     #Flask-login required functions
     def is_authenticated(self):
@@ -127,7 +127,7 @@ class Queue(Base):
 if __name__ == '__main__':
     Base.metadata.create_all(engine)
     session = Session()
-    admin = User(name="admin", password="password", roll="admin")
+    admin = User(name="admin", password="password", role="admin")
     test_song = Song(id=0, album="Test", artist="Test", title="Still Test", pi_owner="Axel")
     #test_queue = Queue(id=20, owner="steph")
     session.add(admin)
