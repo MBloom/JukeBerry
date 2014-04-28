@@ -127,13 +127,44 @@ class Queue(Base):
                  'owner': self.owner
                 }
 
+class NowPlaying(Base):
+    __tablename__ = 'nowPlaying'
+
+    id = Column(Integer, primary_key=True)
+    album = Column(String)
+    artist = Column(String)
+    title = Column(String)
+    pi_owner = Column(String)
+    owner  = Column(String, primary_key=True)
+
+    def __init__(self, **kwargs):
+        for key, val in kwargs.iteritems():
+            setattr(self, key, val)
+
+    def __repr__(self):
+        return "<NowPlaying(id={}, owner={})>".format(self.id, self.owner)
+
+    def __repr__(self):
+        return "<NowPlaying(id={}, album={}, artist={}, title={}, pi_owner={}, owner={})>".format(self.id, self.album, self.artist, self.title, self.pi_owner, self.owner)
+
+    def to_dict(self):
+        return {
+                 'id': self.id,
+                 'album': self.album,
+                 'artist': self.artist,
+                 'title': self.title,
+                 'pi_owner': self.pi_owner,
+                 'owner': self.owner
+                }
+
+
 if __name__ == '__main__':
     Base.metadata.create_all(engine)
     session = Session()
     admin = User(name="admin", password="password", role="admin")
-    test_song = Song(id=0, album="Test", artist="Test", title="Still Test", pi_owner="Axel")
+    #test_song = Song(id=0, album="Test", artist="Test", title="Still Test", pi_owner="Axel")
     #test_queue = Queue(id=20, owner="steph")
     session.add(admin)
-    session.add(test_song)
+    #session.add(test_song)
     #session.add(test_queue)
     session.commit()
