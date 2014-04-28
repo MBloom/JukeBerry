@@ -31,6 +31,9 @@ def get_user(name):
 def get_song(title, artist, album):
     return g.db.query(Song).filter_by(title=title, artist=artist, album=album).first()
 
+def get_qsong(title, artist, album):
+    return g.db.query(Queue).filter_by(title=title, artist=artist, album=album).first()
+
 
 class User(Base):
     __tablename__ = 'users'

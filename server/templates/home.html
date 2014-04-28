@@ -83,25 +83,25 @@
 
 		for (var i=1;i<queueSongs.length;i++) { 
 			if(yourSongs.indexOf(queueSongs[i]) > -1) {
-				document.getElementById("list").innerHTML+="<ul><a id='button" + i + "' class='clickme'><span class='glyphicon glyphicon-remove'></span></a>  " + queueSongs[i] + "</ul>";
+				document.getElementById("list").innerHTML+="<ul><a id='" + i + "' class='clickme'><span class='glyphicon glyphicon-remove'></span></a>  " + queueSongs[i] + "</ul>";
 			} else {
 				document.getElementById("list").innerHTML+="<ul>" + queueSongs[i] + "</ul>";
 			}
 		}
 
-		$('.button').click(function(){
-	    	var i = (this).attr('id').split("_")[1]
-	        alert(i);
+		$('.clickme').click(function(){
+	    	var i = $(this).attr('id')
+	        //alert(i);
 	        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 	        $.getJSON($SCRIPT_ROOT + '/_delete', {
 	        		songString: queueSongs[i]
 		        }, function(data) {
-		          (alert)
+		          $("#queue").html(data.value);
 		        });
 		        return false;
 		});
 
-		var seconds = 5;
+		var seconds = 25;
 		setInterval(function(){
 			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 			$.getJSON($SCRIPT_ROOT + '/_queue', {

@@ -88,10 +88,18 @@ def add() :
 
 @app.route('/_delete')
 def delete() :
-    print "temp1"
     a = request.args.get('songString', 0, type=str)
-    print "temp"
     print a
+    songData = a.split(" - ")
+    notTitle = songData[1].split(" (")
+    artist = notTitle[0]
+    album = notTitle[1].split(")")[0]
+    song = models.get_qsong(songData[0], artist, album)
+    g.db.delete(song);
+    uname = current_user.get_id()
+    all_songs = g.db.query(Song).all()
+    queue = g.db.query(Queue).all()
+    your_songs = g.db.query(Queue).filter_by(owner=uname).all()
     return jsonify(value=render_template('queue.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue))
     
 
