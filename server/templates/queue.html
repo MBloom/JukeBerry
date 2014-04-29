@@ -22,14 +22,19 @@
 
 		//alert(yourSongs.length);
 		if(queueSongs.length > 0) {
-			document.getElementById("nowPlaying").innerHTML+="<p>" + queueSongs[0] + "</p>";
+			var split = queueSongs[0].split(" - ");
+			var song = split[0];
+			var split2 = split[1].split(" (");
+			var artist = split2[0];
+			var album = split2[1].substring(0, split2[1].length - 1);
+			document.getElementById("nowPlaying").innerHTML="<h2>" + song + "</h2><h4>" + artist + "</h4><h5>" + album + "</h5>";
 		} else {
-			document.getElementById("nowPlaying").innerHTML+="<p>No songs currently in the queue.</p>";
+			document.getElementById("nowPlaying").innerHTML="<p>No songs currently in the queue.</p>";
 		}
 
 		for (var i=1;i<queueSongs.length;i++) { 
 			if(yourSongs.indexOf(queueSongs[i]) > -1) {
-				document.getElementById("list").innerHTML+="<ul><a id='button_"+i+"' class='clickme'><span class='glyphicon glyphicon-remove'></span></a>  " + queueSongs[i] + "</ul>";
+				document.getElementById("list").innerHTML+="<a id='" + i + "' class='clickme' style='padding-left: 15px'><span class='glyphicon glyphicon-remove'></span></a> <ul style='margin-top: -20px;'>" + queueSongs[i] + "</ul>";
 			} else {
 				document.getElementById("list").innerHTML+="<ul>" + queueSongs[i] + "</ul>";
 			}
