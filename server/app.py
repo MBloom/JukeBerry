@@ -73,13 +73,13 @@ def add() :
             your_songs = g.db.query(Queue).filter_by(owner=uname).all()
             queue = g.db.query(Queue).all()
             nextSong = Queue(id=song.id, album = song.album, artist = song.artist, title = song.title, pi_owner = song.pi_owner, owner=user.name)
-            try:
+            qsong = models.get_qsong(songData[0], artist, album)
+            if qsong == None:
                 g.db.add(nextSong)
                 g.db.flush()
                 return redirect(url_for("home"))
                 #render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs)
-            except IntegrityError:
-                g.db.rollback()
+            else:
                 return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, error="You've already added that song to the list!", queue=queue)
                 #return render_template("home.html", ) 
             #return redirect(url_for("home"))
