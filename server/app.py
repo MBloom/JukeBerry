@@ -2,7 +2,7 @@ from flask import Flask, request, g, render_template, redirect, abort, url_for, 
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 
 import config, models
-from models import Session, User, Song, Queue
+from models import Session, User, Song, Queue, NowPlaying
 from forms import LoginForm, AccountForm, SongForm
 from sqlalchemy import exc
 import collections
@@ -148,8 +148,9 @@ def queue():
     uname = current_user.get_id()
     all_songs = g.db.query(Song).all()
     queue = g.db.query(Queue).all()
+    now = g.db.query(NowPlaying).first()
     your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-    return jsonify(value=render_template('queue.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue))
+    return jsonify(value=render_template('queue.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue, now=now))
 
 @app.route('/')
 def home():
@@ -157,8 +158,9 @@ def home():
     uname = current_user.get_id()
     all_songs = g.db.query(Song).all()
     queue = g.db.query(Queue).all()
+    now = g.db.query(NowPlaying).first()
     your_songs = g.db.query(Queue).filter_by(owner=uname).all()
-    return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue)
+    return render_template('home.html', your_songs=your_songs, uname=uname, songs=all_songs, queue=queue, now=now)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=19199,  debug=True)

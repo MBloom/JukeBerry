@@ -72,8 +72,13 @@
 		    yourSongs.push("{{y.title  | safe }}" + " - " + "{{y.artist | safe }}" + " (" + "{{y.album | safe }}" + ")");
 		{% endfor %}
 
-		if(queueSongs.length > 0) {
-			var split = queueSongs[0].split(" - ");
+		var nowPlay = [];
+		{% for n in now %}
+			nowPlay.push("{{n.title  | safe }}" + " - " + "{{n.artist | safe }}" + " (" + "{{n.album | safe }}" + ")");
+		{% endfor %}
+
+		if( nowPlay.length > 0) {
+			var split = nowPlay[0].split(" - ");
 			var song = split[0];
 			var split2 = split[1].split(" (");
 			var artist = split2[0];
