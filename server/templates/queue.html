@@ -19,10 +19,12 @@
 		{% endfor %}
 
 		var nowPlay = [];
-		{% for n in now %}
-			nowPlay.push("{{n.title  | safe }}" + " - " + "{{n.artist | safe }}" + " (" + "{{n.album | safe }}" + ")");
-		{% endfor %}
-
+		{% if now is defined %}
+			nowPlay.push("{{now.title  | safe }}" + " - " + "{{now.artist | safe }}" + " (" + "{{now.album | safe }}" + ")");
+		{% else %}
+			//nowPlay.push("No songs currently in queue.");
+		{% endif %}
+		
 		if( nowPlay.length > 0) {
 			var split = nowPlay[0].split(" - ");
 			var split = queueSongs[0].split(" - ");

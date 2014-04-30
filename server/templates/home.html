@@ -73,9 +73,11 @@
 		{% endfor %}
 
 		var nowPlay = [];
-		{% for n in now %}
-			nowPlay.push("{{n.title  | safe }}" + " - " + "{{n.artist | safe }}" + " (" + "{{n.album | safe }}" + ")");
-		{% endfor %}
+		{% if now is defined %}
+			nowPlay.push("{{now.title  | safe }}" + " - " + "{{now.artist | safe }}" + " (" + "{{now.album | safe }}" + ")");
+		{% else %}
+			//nowPlay.push("No songs currently in queue.");
+		{% endif %}
 
 		if( nowPlay.length > 0) {
 			var split = nowPlay[0].split(" - ");
@@ -88,7 +90,7 @@
 			document.getElementById("nowPlaying").innerHTML="<p>No songs currently in the queue.</p>";
 		}
 
-		for (var i=1;i<queueSongs.length;i++) { 
+		for (var i=0;i<queueSongs.length;i++) { 
 			if(yourSongs.indexOf(queueSongs[i]) > -1) {
 				document.getElementById("list").innerHTML+="<a id='" + i + "' class='clickme' style='padding-left: 15px'><span class='glyphicon glyphicon-remove'></span></a> <ul style='margin-top: -20px;'>" + queueSongs[i] + "</ul>";
 			} else {
