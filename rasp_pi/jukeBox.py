@@ -46,15 +46,20 @@ def getQueueRepeat():
 
 getQueueRepeat()
 
+bool queueEnded = False
+
 while True:
 	if pygame.mixer.music.get_busy() == False and len(queue) is not 0:
 		lock.acquire()
 		try:
+			queueEnded = False
 			songInt = queue.popleft()
 			sendInfo = {'songID': songInt, 'raspID' : 'cs4414projectpi'}
 			#send to server to pop songInt
 			requests.get('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/pop.php', params = sendInfo) 
 			print 'requestSent'
+			if len(queue) is 0:
+				queueEnded = True
 			songLoc = direct[songInt].strip()
 			pygame.mixer.music.load(songLoc)
 			pygame.mixer.music.play()
@@ -62,3 +67,8 @@ while True:
 			lock.release()	
 		time.sleep(30)
 		pygame.mixer.music.stop()
+	if pygame.mixer.music.get_busy() == False and len(queue) is 0 and queueEnded:
+		requests.get('http://ec2-54-186-3-95.us-west-2.compute.amazonaws.com/pop.php', params = sendInfo) 
+		print 'requestSent'
+		queueEnded = False
+		
