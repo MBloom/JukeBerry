@@ -73,7 +73,7 @@
 		{% endfor %}
 
 		var nowPlay = [];
-		{% if now is defined %}
+		{% if now != None %}
 			nowPlay.push("{{now.title  | safe }}" + " - " + "{{now.artist | safe }}" + " (" + "{{now.album | safe }}" + ")");
 		{% else %}
 			//nowPlay.push("No songs currently in queue.");
@@ -87,7 +87,7 @@
 			var album = split2[1].substring(0, split2[1].length - 1);
 			document.getElementById("nowPlaying").innerHTML="<h2>" + song + "</h2><h4>" + artist + "</h4><h5>" + album + "</h5>";
 		} else {
-			document.getElementById("nowPlaying").innerHTML="<p>No songs currently in the queue.</p>";
+			document.getElementById("nowPlaying").innerHTML="<h4>No songs currently in the queue.</h4>";
 		}
 
 		for (var i=0;i<queueSongs.length;i++) { 
