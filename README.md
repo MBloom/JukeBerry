@@ -1,8 +1,6 @@
 JukeBrry
 ========
 
-cs4414 final project
-
 Ever wanted to have multiple people in charge of a playlist? Changing phones can be a hassle, and who wants to let just one person decide the music that everyone is listening to?
 
 JukeBrry works as a solution for this problem: users can add songs to a playlist remotely and in real time from a music library stored on a Raspberry Pi. Since the Pi can play the music as well, no one has to sacrifice their phone and leave it plugged into the speakers. Instead, users simply access the JukeBrry site (which renders on mobile as well, thanks to Twitter's Bootstrap) and are able to add songs from the pre-populated library. 
